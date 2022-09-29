@@ -9,21 +9,14 @@ class BinarySearchTree
   end
 
   def search(value)
-		return nil if self.root == nil
 
     current = self.root
 		
-		while current
-			return current if current.value == value
-
-			if value < current.value
-				current = current.left
-			else
-				current = current.right
-			end
+		while current && current.value != value
+			current = value < current.value ? current.left : current.right
 		end
 
-		nil
+		current
 
   end
 
@@ -36,22 +29,22 @@ class BinarySearchTree
     end
 
     current = self.root
-		
+
 		while current
-			if value == current.value
-				return nil
-			elsif value < current.value && !current.left.nil?
+			return nil if value == current.value
+
+			if value < current.value
+				if current.left.nil?
+					current.left = new_node
+					return new_node
+				end
 				current = current.left
-			elsif value > current.value && !current.right.nil?
-				current = current.right
-			elsif value < current.value
-				current.left = new_node
-				current = nil
-				return new_node
 			else
-				current.right = new_node
-				current = nil
-				return new_node
+				if current.right.nil?
+					current.right = new_node
+					return new_node
+				end
+				current = current.right
 			end
 		end
 
